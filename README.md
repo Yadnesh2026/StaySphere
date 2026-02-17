@@ -92,7 +92,7 @@ This project was developed to practice full-stack development using the MERN sta
 
 ## 👨‍💻 Author
 
-**Vedant (Yadnesh Vidulkar)**
+**Yadnesh Vidulkar**
 B.Tech IT (Data Science)
 
 ---
