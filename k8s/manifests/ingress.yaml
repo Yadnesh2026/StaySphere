@@ -5,6 +5,8 @@ metadata:
   name: staysphere-ingress            # Ingress name
 
 spec:
+  ingressClassName: nginx             # Use NGINX Ingress Controller
+
   rules:
   - host: staysphere.local            # Domain name
 
@@ -39,4 +41,6 @@ spec:
 # Pod = Room
 #-----------------------------
 
-
+#-----------------------------
+# kubectl apply -f ingress.yaml - After making  apply(Changes) or make an new file and to add in kubernets
+#-----------------------------
