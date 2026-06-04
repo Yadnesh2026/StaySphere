@@ -1,0 +1,42 @@
+apiVersion: networking.k8s.io/v1      # Ingress API version
+kind: Ingress                         # Create an Ingress resource
+
+metadata:
+  name: staysphere-ingress            # Ingress name
+
+spec:
+  rules:
+  - host: staysphere.local            # Domain name
+
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+
+        backend:
+          service:
+            name: staysphere-service  # Forward traffic to this Service
+
+            port:
+              number: 80              # Service port
+
+
+#-----------------------------
+# User
+#   ↓
+# Ingress
+#   ↓
+# Service
+#   ↓
+# Pod
+#   ↓
+# Container
+#-----------------------------
+
+#-----------------------------
+# Ingress = Traffic Manager
+# Service = Reception Desk
+# Pod = Room
+#-----------------------------
+
+
