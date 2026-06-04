@@ -1,0 +1,56 @@
+apiVersion: v1                     # Core Kubernetes API
+kind: Service                      # Create a Service
+
+metadata:
+  name: staysphere-service         # Service name
+
+spec:
+  selector:
+    app: staysphere                # Connect to Pods with this label
+
+  ports:
+    - protocol: TCP                # Use TCP protocol
+      port: 80                     # Service port
+      targetPort: 8011             # Forward to container port
+
+  type: NodePort                   # Expose outside cluster
+
+
+#----------------------------
+# minikube service staysphere-service - Run the Pod (Service)
+#----------------------------
+
+# Pod = House
+# Service = Permanent Address
+
+#----------------------------
+# A Service gives your application a stable address because Pods can be destroyed and recreated at any time.
+# Service is just a way to reach the running Pod.
+#----------------------------
+
+
+#----------------------------
+# Service = Permanent Reception Desk
+# Instead of talking directly to Pods, users talk to the Service.
+
+# User
+#   ↓
+# Service
+#   ↓
+# Pod
+#   ↓
+# StaySphere
+
+# The Service always knows:
+# Which Pod is currently running?
+
+# So if the Pod changes:
+
+# Old Pod (10.244.0.5) ❌
+# New Pod (10.244.0.8) ✅
+
+# the Service automatically redirects traffic to the new Pod.
+# The user doesn't notice anything.
+#----------------------------
+
+

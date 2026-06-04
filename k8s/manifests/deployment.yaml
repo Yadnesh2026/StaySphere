@@ -1,0 +1,57 @@
+apiVersion: apps/v1                 # API version for Deployment resources
+kind: Deployment                    # Kubernetes object type
+
+metadata:
+  name: staysphere-deployment       # Name of the deployment
+
+spec:
+  replicas: 1                       # Run 1 Pod
+
+  selector:
+    matchLabels:
+      app: staysphere               # Deployment manages Pods with this label
+
+  template:                         # Blueprint for creating Pods
+
+    metadata:
+      labels:
+        app: staysphere             # Label assigned to Pods
+
+    spec:
+      containers:
+        - name: staysphere          # Container name inside the Pod
+
+          image: vedantv0502/staysphere:v1   # Docker image from Docker Hub
+
+          ports:
+            - containerPort: 8011   # Port on which Node.js app runs
+
+
+#----------------------------
+# You're telling Kubernetes:
+# "I want 1 Pod running using this Docker image."
+# Kubernetes then creates it for you.
+
+# A Deployment is used to tell Kubernetes how many Pods should run and which Docker image those Pods should use.
+#----------------------------
+
+
+#----------------------------
+# Deployment
+#     │
+#     ├── replicas: 1
+#     │
+#     ▼
+# Pod
+#     │
+#     ├── label: app=staysphere
+#     │
+#     ▼
+# Container
+#     │
+#     ├── image: vedantv0502/staysphere:v1
+#     ├── port: 8011
+#     │
+#     ▼
+# StaySphere Application
+#----------------------------
