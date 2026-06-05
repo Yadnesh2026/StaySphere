@@ -64,10 +64,43 @@ CMD ["node","app.js"]
 
 #----------------------------
 #C. CI/CD Pipleline
-# 7. 
+# 7. dockerr.yaml - make an fil
+# 8. kubectl rollout restart deployment/staysphere-deployment - to restart and make new pod
 
 
 
 
 
 #---------------------------------------------------------------------------------------
+
+
+#----------------------------
+# Why?
+
+# Current CI Flow:
+
+# GitHub Actions
+#       ↓
+# Docker Hub
+
+# works because Docker Hub is public on the internet.
+
+# But:
+
+# GitHub Actions
+#       ↓
+# Your Local Minikube
+
+# usually won't work because GitHub cannot reach your laptop.
+
+
+
+# This Is Why Companies Use
+# AWS EKS
+# Azure AKS
+# Google GKE
+
+# because those clusters are online.
+
+# GitHub can talk to them.
+#----------------------------
