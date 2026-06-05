@@ -1,0 +1,76 @@
+name: Build and Push Docker Image      # Workflow name shown in GitHub Actions tab
+
+on:
+  push:                                # Run workflow whenever code is pushed
+    branches:
+      - main                           # Only trigger when pushing to main branch
+
+jobs:
+  build-and-push:                      # Name of the job
+
+    runs-on: ubuntu-latest             # GitHub creates a temporary Ubuntu machine
+
+    steps:
+
+      - name: Checkout Code            # Download repository code to GitHub machine
+        uses: actions/checkout@v4
+
+      - name: Login to Docker Hub      # Login using GitHub Secrets
+        uses: docker/login-action@v3
+
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}   # Docker Hub username
+          password: ${{ secrets.DOCKER_TOKEN }}      # Docker Hub Personal Access Token
+
+      - name: Build and Push Docker Image            # Build image and push to Docker Hub
+        uses: docker/build-push-action@v5
+
+        with:
+          context: .                                 # Current project directory
+          push: true                                # Push image after building
+
+          tags: vedantv0502/staysphere:latest       # Image name and tag
+
+
+
+# ------------------------------------------------------
+# COMPLETE FLOW
+# ------------------------------------------------------
+#
+# You write code
+#       ↓
+# git add .
+# git commit -m "updated code"
+# git push
+#       ↓
+# GitHub Actions starts automatically
+#       ↓
+# Creates temporary Ubuntu machine
+#       ↓
+# Downloads StaySphere repository
+#       ↓
+# Logs into Docker Hub
+#       ↓
+# Builds Docker image
+#       ↓
+# Pushes image to Docker Hub
+#       ↓
+# Workflow completes
+#
+# ------------------------------------------------------
+#
+# WITHOUT CI/CD:
+#
+# git push
+# docker build
+# docker push
+#
+# WITH CI/CD:
+#
+# git push
+#
+# That's it 😎
+#
+# GitHub does the rest automatically.
+#
+# ------------------------------------------------------

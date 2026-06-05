@@ -1,3 +1,6 @@
+
+#Ingress - Used to give the domain name for our website 
+
 apiVersion: networking.k8s.io/v1      # Ingress API version
 kind: Ingress                         # Create an Ingress resource
 
@@ -43,4 +46,34 @@ spec:
 
 #-----------------------------
 # kubectl apply -f ingress.yaml - After making  apply(Changes) or make an new file and to add in kubernets
+# minikube addons enable ingress - Install Ingress Controller 
+#-----------------------------
+
+# -----------------------------
+# Flow With Controller
+# Ingress YAML
+#       ↓
+# NGINX Ingress Controller
+#       ↓
+# Service
+#       ↓
+# Pod
+#       ↓
+# StaySphere
+
+# Now traffic can actually reach your application.
+#-----------------------------
+
+# AWS EKS Cluster----------------
+# User
+#    ↓
+# staysphere.com
+#    ↓
+# Ingress
+#    ↓
+# staysphere-service
+#    ↓
+# Pod
+#    ↓
+# Node.js App
 #-----------------------------
