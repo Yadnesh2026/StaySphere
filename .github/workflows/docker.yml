@@ -71,3 +71,26 @@ jobs:
 # GitHub does the rest automatically.
 #
 # ------------------------------------------------------
+
+
+  # ------------------------------------------------------
+# When you did:
+
+# git push
+
+# GitHub automatically:
+
+# 1. Created Ubuntu Machine
+#         ↓
+# 2. Downloaded StaySphere Code
+#         ↓
+# 3. Logged into Docker Hub
+#         ↓
+# 4. Built Docker Image
+#         ↓
+# 5. Pushed Image to Docker Hub
+#         ↓
+# 6. Destroyed Ubuntu Machine
+
+# All automatically.
+# ------------------------------------------------------
