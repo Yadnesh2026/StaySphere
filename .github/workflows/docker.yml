@@ -32,7 +32,6 @@ jobs:
           tags: vedantv0502/staysphere:latest       # Image name and tag
 
 
-
 # ------------------------------------------------------
 # COMPLETE FLOW
 # ------------------------------------------------------
@@ -68,9 +67,7 @@ jobs:
 # WITH CI/CD:
 #
 # git push
-#
 # That's it 😎
-#
 # GitHub does the rest automatically.
 #
 # ------------------------------------------------------
