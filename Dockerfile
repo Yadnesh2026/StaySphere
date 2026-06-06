@@ -35,43 +35,222 @@ CMD ["node","app.js"]
 # 6. Open port 8011
 # 7. Run node app.js
 
-#---------------------------------------------------------------------------------
-# All DevOps Steps
+# ================================================================================
 
-#A . Container the project in Docker 
+# DEVOPS WORKFLOW NOTES
 
-# 1. after making Docker file then after put them inside the docker as imae 
-# docker build -t staysphere . - reads the dockerfile
-# without -t (tag) docker creates the image with the long name without out custome name 
+# ================================================================================
 
-# 2.Now create the a running container from the image
-# docker run -p 8011:8011 staysphere - creates the container on map the port on 8011
+# ----------------------------
 
-# 3. Docker Hub 
-# For making another same image in for docker hub
-# docker tag staysphere:latest vedantv/staysphere:v1
+# A. DOCKER
 
-#----------------------------
-#B. Kubernetes - Make an File name k8s 
+# docker build -t staysphere .                                 # Read Dockerfile and create Docker Image
 
-# 4. Make an File name k8s
-# deployment.yaml - In that make an deployment.yaml file which
-# service.yaml - After deployment , To run the app from docker 
+# docker images                                                # Show all Docker Images
 
-# 5. minikube service staysphere-service - To start the App in docker imaage
+# docker run -p 8011:8011 staysphere                           # Create and start Container from Image
 
-# 6. Ingress.yaml - Make  another file for ingress as to where to redirect thsi page or wesbite
+# docker ps                                                    # Show running Containers
 
-#----------------------------
-#C. CI/CD Pipleline
-# 7. dockerr.yaml - make an fil
-# 8. kubectl rollout restart deployment/staysphere-deployment - to restart and make new pod
+# docker stop <container-id>                                   # Stop running Container
 
+# docker login                                                 # Login to Docker Hub
 
+# docker tag staysphere:latest vedantv0502/staysphere:v1       # Create Docker Hub compatible Image
 
+# docker push vedantv0502/staysphere:v1                        # Upload Image to Docker Hub
 
+# docker pull vedantv0502/staysphere:v1                        # Download Image from Docker Hub
 
-#---------------------------------------------------------------------------------------
+# ----------------------------
+
+# B. KUBERNETES
+
+# minikube start                                               # Start local Kubernetes Cluster
+
+# minikube status                                              # Check Minikube Status
+
+# kubectl get nodes                                            # Show Kubernetes Nodes
+
+# kubectl apply -f deployment.yaml                             # Create Deployment from YAML
+
+# kubectl get deployments                                      # Show all Deployments
+
+# kubectl get pods                                             # Show all Running Pods
+
+# kubectl describe pod <pod-name>                              # Show complete Pod Details
+
+# kubectl logs <pod-name>                                      # Show Pod Logs
+
+# kubectl delete pod <pod-name>                                # Delete Pod (Deployment recreates it)
+
+# kubectl get pods -w                                          # Watch Pod changes live
+
+# ----------------------------
+
+# C. SERVICE
+
+# kubectl apply -f service.yaml                                # Create Service
+
+# kubectl get services                                         # Show all Services
+
+# minikube service staysphere-service                          # Open Application through Service
+
+# Flow:
+
+# User -> Service -> Pod -> Container
+
+# ----------------------------
+
+# D. INGRESS
+
+# minikube addons enable ingress                               # Install NGINX Ingress Controller
+
+# kubectl apply -f ingress.yaml                                # Create Ingress Rules
+
+# kubectl get ingress                                          # Show Ingress Information
+
+# kubectl describe ingress staysphere-ingress                  # Show Ingress Details
+
+# Flow:
+
+# User -> Ingress -> Service -> Pod -> Container
+
+# ----------------------------
+
+# E. GIT
+
+# git status                                                   # Show changed files
+
+# git add .                                                    # Add files for commit
+
+# git commit -m "message"                                      # Save changes locally
+
+# git push                                                     # Upload code to GitHub
+
+# git branch                                                   # Show current branch
+
+# git remote -v                                                # Show connected GitHub Repository
+
+# ----------------------------
+
+# F. CI (GitHub Actions)
+
+# Create:
+
+# .github/workflows/docker.yml                               # GitHub Actions Workflow File
+
+# GitHub Secrets:
+
+# DOCKER_USERNAME                                            # Docker Hub Username
+
+# DOCKER_TOKEN                                               # Docker Hub Personal Access Token
+
+# Flow:
+
+# git push
+
+# ↓
+
+# GitHub Actions
+
+# ↓
+
+# Docker Build
+
+# ↓
+
+# Docker Push
+
+# ----------------------------
+
+# G. CD (Current Learning)
+
+# kubectl rollout restart deployment/staysphere-deployment     # Restart Deployment and create New Pod
+
+# New Pod
+
+# ↓
+
+# Pull Latest Docker Image
+
+# ↓
+
+# Old Pod Removed
+
+# ----------------------------
+
+# H. COMPLETE DEVOPS FLOW
+
+# Write Code
+
+# ↓
+
+# git add .
+
+# ↓
+
+# git commit
+
+# ↓
+
+# git push
+
+# ↓
+
+# GitHub Actions
+
+# ↓
+
+# Docker Build
+
+# ↓
+
+# Docker Hub
+
+# ↓
+
+# Kubernetes
+
+# ↓
+
+# Deployment
+
+# ↓
+
+# Service
+
+# ↓
+
+# Ingress
+
+# ↓
+
+# User Accesses Application
+
+# ----------------------------
+
+# I. NEXT TOPICS
+
+# ConfigMaps
+
+# Secrets
+
+# Full CD Automation
+
+# Prometheus
+
+# Grafana
+
+# AWS
+
+# EKS
+
+# Terraform
+
+# ================================================================================
+
 
 
 #----------------------------

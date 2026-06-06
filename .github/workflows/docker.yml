@@ -75,7 +75,7 @@ jobs:
 # ------------------------------------------------------
 
 
-  # ------------------------------------------------------
+# ------------------------------------------------------
 # When you did:
 
 # git push
@@ -96,5 +96,22 @@ jobs:
 
 # All automatically.
 # ------------------------------------------------------
+
+# ------------------------------------------------------
+# kubectl rollout restart deployment/staysphere-deployment - command
+
+# Kubernetes does:
+
+# Current Pod
+#     staysphere-v1
+#          ↓
+# Create New Pod
+#     staysphere-v2
+#          ↓
+# Wait Until Ready
+#          ↓
+# Delete Old Pod
+# ------------------------------------------------------
+
 
   
