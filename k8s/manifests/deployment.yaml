@@ -55,3 +55,24 @@ spec:
 #     ▼
 # StaySphere Application
 #----------------------------
+
+#----------------------------
+# Before DevOps
+# Your Laptop
+#      │
+#      ├── Node.js App
+#      │
+#      └── MongoDB Atlas
+
+# Node.js was directly running on your laptop.
+
+# After Docker
+# Docker Container
+#         │
+#         └── Node.js App
+#                  │
+#                  ▼
+#           MongoDB Atlas
+
+# The app moved inside a container, but the database is still Atlas.
+#----------------------------
