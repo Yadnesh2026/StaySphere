@@ -79,3 +79,30 @@ spec:
 
 # The app moved inside a container, but the database is still Atlas.
 #----------------------------
+
+
+#-------DevOps Pipeline-----------
+# Code
+#  ↓
+# Git
+#  ↓
+# GitHub
+#  ↓
+# Docker
+#  ↓
+# Docker Hub
+#  ↓
+# Kubernetes
+#  ↓
+# Deployment
+#  ↓
+# Service
+#  ↓
+# Ingress
+#  ↓
+# CI
+#  ↓
+# Self Hosted Runner
+#  ↓
+# CD
+#----------------------------
