@@ -167,7 +167,9 @@ CMD ["node","app.js"]
 
 # G. CD (Current Learning)
 
-# kubectl rollout restart deployment/staysphere-deployment     # Restart Deployment and create New Pod
+# kubectl rollout restart deployment/staysphere-deployment
+
+# Restart Deployment and create New Pod
 
 # New Pod
 
@@ -180,6 +182,129 @@ CMD ["node","app.js"]
 # Old Pod Removed
 
 # ----------------------------
+
+# H. AUTOMATIC CD (Self Hosted Runner)
+
+# Problem:
+
+# GitHub cannot directly access my local Minikube.
+
+# Solution:
+
+# Create a Self Hosted Runner on my laptop.
+
+# Step 1:
+
+# Create actions-runner folder
+
+# Step 2:
+
+# Download GitHub Runner
+
+# Step 3:
+
+# Extract Runner Files
+
+# Step 4:
+
+# .\config.cmd                      # Register my laptop with GitHub
+
+# Step 5:
+
+# .\run.cmd                         # Start Runner
+
+# Output:
+
+# Listening for Jobs
+
+# Meaning:
+
+# GitHub can now execute commands on my laptop.
+
+# ----------------------------
+
+# CD Workflow
+
+# Write Code
+
+# ↓
+
+# git add .
+
+# ↓
+
+# git commit
+
+# ↓
+
+# git push
+
+# ↓
+
+# GitHub Actions (CI)
+
+# ↓
+
+# Docker Build
+
+# ↓
+
+# Docker Hub Push
+
+# ↓
+
+# Self Hosted Runner
+
+# ↓
+
+# kubectl rollout restart deployment/staysphere-deployment
+
+# ↓
+
+# Kubernetes creates New Pod
+
+# ↓
+
+# New Pod pulls latest Docker Image
+
+# ↓
+
+# Old Pod removed
+
+# ↓
+
+# Latest StaySphere running
+
+# ----------------------------
+
+# docker.yml
+
+# build-and-push job
+
+# Purpose:
+
+# Build Docker Image and Push to Docker Hub
+
+# deploy job
+
+# Purpose:
+
+# Use Self Hosted Runner and Restart Kubernetes Deployment
+
+# needs: build-and-push
+
+# Wait for Docker Build to complete
+
+# runs-on: self-hosted
+
+# Use my Laptop instead of GitHub Server
+
+# kubectl rollout restart deployment/staysphere-deployment
+
+# Restart Deployment and deploy latest version
+
+# ----------------------------
+
 
 # H. COMPLETE DEVOPS FLOW
 
