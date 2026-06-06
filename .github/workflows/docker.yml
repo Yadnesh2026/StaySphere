@@ -1,62 +1,85 @@
-#Git Actions Workflow for CI/CD
+# GitHub Actions Workflow for CI/CD
 
-name: Build and Push Docker Image      # Workflow name shown in GitHub Actions tab
+name: Build and Push Docker Image
 
 on:
-  push:                                # Run workflow whenever code is pushed
+  push:
     branches:
-      - main                           # Only trigger when pushing to main branch
+      - main
 
 jobs:
-  build-and-push:                      # Name of the job
 
-    runs-on: ubuntu-latest             # GitHub creates a temporary Ubuntu machine
+  # -------------------------------
+  # CI JOB
+  # -------------------------------
+
+  build-and-push:
+
+    runs-on: ubuntu-latest      # GitHub creates temporary Ubuntu VM
 
     steps:
 
-      - name: Checkout Code            # Download repository code to GitHub machine
+      - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Login to Docker Hub      # Login using GitHub Secrets
+      - name: Login to Docker Hub
         uses: docker/login-action@v3
 
         with:
-          username: ${{ secrets.DOCKER_USERNAME }}   # Docker Hub username
-          password: ${{ secrets.DOCKER_TOKEN }}      # Docker Hub Personal Access Token
+          username: ${{ secrets.DOCKER_USERNAME }}   # Docker Hub Username
+          password: ${{ secrets.DOCKER_TOKEN }}      # Docker Hub Token
 
-      - name: Build and Push Docker Image            # Build image and push to Docker Hub
+      - name: Build and Push Docker Image
         uses: docker/build-push-action@v5
 
         with:
-          context: .                                 # Current project directory
-          push: true                                # Push image after building
+          context: .                                 # Current Project Folder
+          push: true                                 # Push image to Docker Hub
+          tags: vedantv0502/staysphere:latest        # Docker Image Name
 
-          tags: vedantv0502/staysphere:latest       # Image name and tag
+
+  # -------------------------------
+  # CD JOB
+  # -------------------------------
+
+  deploy:
+
+    needs: build-and-push         # Wait until CI finishes successfully
+
+    runs-on: self-hosted          # Use Vedant's Laptop
+
+    steps:
+
+      - name: Restart Kubernetes Deployment
+
+        run: kubectl rollout restart deployment/staysphere-deployment
+        # Create New Pod
+        # New Pod pulls latest Docker Image
 
 
 # ------------------------------------------------------
 # COMPLETE FLOW
 # ------------------------------------------------------
 #
-# You write code
-#       ↓
-# git add .
-# git commit -m "updated code"
+# Developer
+#     ↓
 # git push
-#       ↓
-# GitHub Actions starts automatically
-#       ↓
-# Creates temporary Ubuntu machine
-#       ↓
-# Downloads StaySphere repository
-#       ↓
-# Logs into Docker Hub
-#       ↓
-# Builds Docker image
-#       ↓
-# Pushes image to Docker Hub
-#       ↓
-# Workflow completes
+#     ↓
+# GitHub Actions
+#     ↓
+# Build Docker Image
+#     ↓
+# Push Docker Image
+#     ↓
+# Self Hosted Runner
+#     ↓
+# kubectl rollout restart
+#     ↓
+# Kubernetes
+#     ↓
+# New Pod
+#     ↓
+# Latest StaySphere Running
 #
 # ------------------------------------------------------
 #
@@ -114,4 +137,51 @@ jobs:
 # ------------------------------------------------------
 
 
+
+
+
+
+
+
+# RUNNER
+# ------------------------------------------------------
+# Runner Group
+# Purpose:
+# Organize multiple Self Hosted Runners.
+
+# For learning and single laptop:
+# Press ENTER to use Default.
+# ------------------------------------------------------
+
+
+# ------------------------------------------------------
+# Would you like to run the runner as service?
+
+# Y = Start automatically with Windows
+
+# N = Start manually
+
+# For learning:
+# Press ENTER (N)
+#------------------------------------------------------
+
+
+
+#--------------After Runner is Applyed ------------------------------
   
+            #       GitHub
+            #          │
+            #          ▼
+            # Self Hosted Runner
+            #    (Your Laptop)
+            #          │
+            #          ▼
+            #      Minikube
+            #          │
+            #          ▼
+            #    Kubernetes
+            #          │
+            #          ▼
+            #         Pod
+# ------------------------------------------------------
+
