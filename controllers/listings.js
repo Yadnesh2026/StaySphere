@@ -15,6 +15,11 @@ module.exports.index = async (req, res) => {
 
   const category = req.query.category;
   const search = req.query.search;
+  const hasMinPrice = req.query.minPrice !== undefined && req.query.minPrice !== "";
+  const hasMaxPrice = req.query.maxPrice !== undefined && req.query.maxPrice !== "";
+  const minPrice = Number(req.query.minPrice);
+  const maxPrice = Number(req.query.maxPrice);
+  const availability = req.query.availability;
 
   let query = {};   // empty filter = show all
 
@@ -29,11 +34,27 @@ module.exports.index = async (req, res) => {
     query.categories = { $in: [category] };
   }
 
+  if ((hasMinPrice && !Number.isNaN(minPrice)) || (hasMaxPrice && !Number.isNaN(maxPrice))) {
+    query.price = {};
+    if (hasMinPrice && !Number.isNaN(minPrice)) query.price.$gte = minPrice;
+    if (hasMaxPrice && !Number.isNaN(maxPrice)) query.price.$lte = maxPrice;
+  }
+
+  if (availability) {
+    query.availability = availability;
+  }
+
   const allListing = await Listing.find(query);
 
   res.render("listings/index", {
     allListing,
-    activeCategory: category
+    activeCategory: category,
+    filters: {
+      search,
+      minPrice: req.query.minPrice || "",
+      maxPrice: req.query.maxPrice || "",
+      availability: availability || ""
+    }
   });
 };
 

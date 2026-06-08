@@ -22,6 +22,7 @@ const dbURL = process.env.ATLASDB_URL;
 const listingRoutes = require("./routes/listing.js");
 const reviewRoutes = require("./routes/review.js");
 const userRoutes = require("./routes/user.js");
+const plannerRoutes = require("./routes/planner.js");
 
 
 // main().then(()=>console.log("connected to db"))
@@ -128,6 +129,7 @@ main();
 //Routess Shiftsss -----------------------------------------------------
 app.use("/listings", listingRoutes);
 app.use("/listings/:id/reviews",reviewRoutes)
+app.use("/planner", plannerRoutes);
 app.use("/",userRoutes);
 app.use("/", (req, res)=>{
     res.redirect("/listings");

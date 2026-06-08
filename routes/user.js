@@ -3,7 +3,7 @@ const router = express.Router();
 const User = require("../models/user.js");
 const wrapAsync = require("../utils/wrapAsync");
 const passport = require("passport");
-const {saveRedirect} = require("../middleware.js");
+const {saveRedirect,isLoggedIn} = require("../middleware.js");
 
 const userController = require("../controllers/users.js")
 
@@ -12,6 +12,8 @@ const userController = require("../controllers/users.js")
 router.route("/signup")
 .get( userController.RenderSignUpForm)
 .post(wrapAsync(userController.SignUp))
+
+router.get("/dashboard", isLoggedIn, wrapAsync(userController.Dashboard));
 
 
 

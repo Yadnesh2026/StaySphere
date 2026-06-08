@@ -16,6 +16,11 @@ const listingSchema =  new Schema({
         // set:(v) => v === "" ? "https://unsplash.com/photos/a-tree-in-a-lake-x6EyvkhT9ZU":v
     },
     price:Number,
+    availability:{
+        type:String,
+        enum:["available","booked","unavailable"],
+        default:"available"
+    },
     location:String,
     country:String, geometry: {
     type: {

@@ -17,10 +17,17 @@
 
           <h4 class="fw-bold mt-2">₹ <%= listing.price.toLocaleString("en-IN") %> / night</h4>
 
+          <p class="mb-1">
+            <% const status = listing.availability || "available"; %>
+            <span class="badge <%= status === 'available' ? 'bg-success' : 'bg-secondary' %>">
+              <%= status === "unavailable" ? "Temporarily unavailable" : status %>
+            </span>
+          </p>
+
           <p class="text-muted"><%= listing.location %>, <%= listing.country %></p>
 
           <%# This shows only the owner can edit and delete their own listing %>
-           <% if(currUser && listing.owner._id.equals(currUser._id)){%>
+           <% if(currUser && (listing.owner._id.equals(currUser._id) || currUser.role === "admin")){%>
             <div class="d-flex gap-2 mt-3">
               <a href="/listings/<%= listing._id %>/edit" class="btn btn-outline-dark">Edit</a>
               <form method="post" action="/listings/<%=listing._id%>?_method=DELETE">

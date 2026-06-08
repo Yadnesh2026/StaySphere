@@ -1,0 +1,61 @@
+<% layout("layouts/boilerplate") -%>
+
+<div class="row mt-4">
+  <div class="col-12">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <div>
+        <h3>Saved Trip Plans</h3>
+        <p class="text-muted mb-0">Your saved city planner results.</p>
+      </div>
+      <a href="/planner" class="btn btn-dark">Create Plan</a>
+    </div>
+
+    <% if (plans.length === 0) { %>
+      <div class="alert alert-light border">No saved plans yet.</div>
+    <% } %>
+
+    <% plans.forEach(plan => { %>
+      <div class="card border shadow-sm mb-3">
+        <div class="card-body p-4">
+          <div class="d-flex justify-content-between flex-wrap gap-2">
+            <div>
+              <h5><%= plan.city %></h5>
+              <p class="text-muted mb-0"><%= plan.days %> days for <%= plan.guests %> guest(s)</p>
+            </div>
+            <div class="text-end">
+              <p class="mb-1">Stay: &#8377; <%= plan.stayBudget.toLocaleString("en-IN") %></p>
+              <p class="mb-0">Food + Travel: &#8377; <%= (plan.foodBudget + plan.travelBudget).toLocaleString("en-IN") %></p>
+            </div>
+          </div>
+
+          <hr>
+
+          <div class="d-flex flex-wrap gap-2 mb-3">
+            <% plan.attractions.forEach(place => { %>
+              <span class="badge bg-light text-dark border"><%= place %></span>
+            <% }) %>
+          </div>
+
+          <% plan.itinerary.forEach(day => { %>
+            <p class="fw-semibold mb-1">Day <%= day.day %>: <%= day.title %></p>
+            <ul>
+              <% day.plan.forEach(item => { %>
+                <li><%= item %></li>
+              <% }) %>
+            </ul>
+          <% }) %>
+
+          <% const savedListings = plan.listings.filter(listing => listing); %>
+          <% if (savedListings.length > 0) { %>
+            <h6>Saved Stays</h6>
+            <div class="d-flex flex-wrap gap-2">
+              <% savedListings.forEach(listing => { %>
+                <a href="/listings/<%= listing._id %>" class="btn btn-sm btn-outline-dark"><%= listing.title %></a>
+              <% }) %>
+            </div>
+          <% } %>
+        </div>
+      </div>
+    <% }) %>
+  </div>
+</div>

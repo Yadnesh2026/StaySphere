@@ -1,4 +1,5 @@
 const User = require("../models/user")
+const Listing = require("../models/listing")
 
 
 module.exports.RenderSignUpForm =async (req,res)=>{
@@ -48,3 +49,13 @@ module.exports.Logout = (req,res,next)=>{
         res.redirect("/listings")
     })
 }
+
+module.exports.Dashboard = async (req,res)=>{
+    const query = req.user.role === "admin" ? {} : { owner: req.user._id };
+    const listings = await Listing.find(query).populate("owner");
+
+    res.render("users/dashboard.ejs", {
+        listings,
+        isAdmin: req.user.role === "admin"
+    });
+};

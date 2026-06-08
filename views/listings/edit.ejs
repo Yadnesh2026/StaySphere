@@ -37,6 +37,15 @@
             <div class="invalid-feedback">Please Enter the Vaild Price</div>
         </div>
         <br>
+        <div class="mb-3">
+            <label for="availability" class="form-label">Availability</label>
+            <select name="listing[availability]" class="form-control">
+                <option value="available" <%= !listing.availability || listing.availability === "available" ? "selected" : "" %>>Available</option>
+                <option value="booked" <%= listing.availability === "booked" ? "selected" : "" %>>Booked</option>
+                <option value="unavailable" <%= listing.availability === "unavailable" ? "selected" : "" %>>Temporarily unavailable</option>
+            </select>
+        </div>
+        <br>
         <div class="row">
         <div class="mb-3 col-md-4">
             <label for="location" class="form-label">City</label>

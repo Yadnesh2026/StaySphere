@@ -1,0 +1,142 @@
+<% layout("layouts/boilerplate") -%>
+
+<style>
+  .planner-form {
+    border: 1px solid #ddd;
+    border-radius: 1rem;
+    padding: 1.5rem;
+    background-color: white;
+  }
+  .planner-form .form-control {
+    border-radius: 25px;
+    padding: 0.5rem 1rem;
+  }
+  .planner-summary {
+    border: 1px solid #eee;
+    border-radius: 1rem;
+    padding: 1rem;
+    background-color: #fff;
+  }
+  .planner-list {
+    padding-left: 1.2rem;
+  }
+</style>
+
+<div class="row mt-4">
+  <div class="col-12">
+    <h3>City Planner</h3>
+    <p class="text-muted">Plan stays, places, days, and budget from one place.</p>
+  </div>
+</div>
+
+<form action="/planner" method="POST" class="planner-form mb-4">
+  <div class="row g-3 align-items-end">
+    <div class="col-md-4">
+      <label class="form-label">City</label>
+      <input class="form-control" name="trip[city]" placeholder="Mumbai, Goa, Pune..." value="<%= formData.city || '' %>" required>
+    </div>
+    <div class="col-md-2">
+      <label class="form-label">Days</label>
+      <input class="form-control" type="number" min="1" name="trip[days]" value="<%= formData.days || 2 %>" required>
+    </div>
+    <div class="col-md-2">
+      <label class="form-label">Guests</label>
+      <input class="form-control" type="number" min="1" name="trip[guests]" value="<%= formData.guests || 2 %>" required>
+    </div>
+    <div class="col-md-2">
+      <label class="form-label">Budget</label>
+      <input class="form-control" type="number" min="0" name="trip[budget]" value="<%= formData.budget || '' %>" placeholder="Optional">
+    </div>
+    <div class="col-md-2">
+      <button class="btn btn-dark w-100">Plan Trip</button>
+    </div>
+  </div>
+</form>
+
+<% if (plan) { %>
+  <div class="row g-4">
+    <div class="col-lg-4">
+      <div class="planner-summary">
+        <h5>Budget Estimate</h5>
+        <p class="mb-1">Stay: &#8377; <%= plan.stayBudget.toLocaleString("en-IN") %></p>
+        <p class="mb-1">Food: &#8377; <%= plan.foodBudget.toLocaleString("en-IN") %></p>
+        <p class="mb-1">Travel: &#8377; <%= plan.travelBudget.toLocaleString("en-IN") %></p>
+        <hr>
+        <h5>Total: &#8377; <%= plan.totalEstimate.toLocaleString("en-IN") %></h5>
+        <p class="text-muted mb-0"><%= plan.budgetMessage %></p>
+      </div>
+    </div>
+
+    <div class="col-lg-8">
+      <div class="planner-summary">
+        <div class="d-flex justify-content-between align-items-start gap-2">
+          <div>
+            <h5><%= plan.city %> Plan</h5>
+            <p class="text-muted mb-0"><%= plan.days %> days for <%= plan.guests %> guest(s)</p>
+          </div>
+
+          <% if (currUser) { %>
+            <form action="/planner/save" method="POST">
+              <input type="hidden" name="plan[city]" value="<%= plan.city %>">
+              <input type="hidden" name="plan[days]" value="<%= plan.days %>">
+              <input type="hidden" name="plan[guests]" value="<%= plan.guests %>">
+              <input type="hidden" name="plan[budget]" value="<%= plan.budget %>">
+              <input type="hidden" name="plan[stayBudget]" value="<%= plan.stayBudget %>">
+              <input type="hidden" name="plan[foodBudget]" value="<%= plan.foodBudget %>">
+              <input type="hidden" name="plan[travelBudget]" value="<%= plan.travelBudget %>">
+              <input type="hidden" name="plan[attractions]" value='<%= JSON.stringify(plan.attractions) %>'>
+              <input type="hidden" name="plan[itinerary]" value='<%= JSON.stringify(plan.itinerary) %>'>
+              <input type="hidden" name="plan[listings]" value='<%= JSON.stringify(plan.listings.map(listing => listing._id)) %>'>
+              <button class="btn btn-outline-dark">Save Plan</button>
+            </form>
+          <% } else { %>
+            <a href="/login" class="btn btn-outline-dark">Login to Save</a>
+          <% } %>
+        </div>
+
+        <hr>
+
+        <h6>Places to Visit</h6>
+        <div class="d-flex flex-wrap gap-2 mb-3">
+          <% plan.attractions.forEach(place => { %>
+            <span class="badge bg-light text-dark border"><%= place %></span>
+          <% }) %>
+        </div>
+
+        <h6>Daily Itinerary</h6>
+        <% plan.itinerary.forEach(day => { %>
+          <div class="mb-3">
+            <p class="fw-semibold mb-1">Day <%= day.day %>: <%= day.title %></p>
+            <ul class="planner-list mb-0">
+              <% day.plan.forEach(item => { %>
+                <li><%= item %></li>
+              <% }) %>
+            </ul>
+          </div>
+        <% }) %>
+      </div>
+    </div>
+  </div>
+
+  <h4 class="mt-4">Suggested Stays</h4>
+  <% if (plan.listings.length === 0) { %>
+    <div class="alert alert-light border">No matching stays found for this city yet.</div>
+  <% } else { %>
+    <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 mt-3">
+      <% plan.listings.forEach(list => { %>
+        <a href="/listings/<%= list._id %>" class="listing-link">
+          <div class="card col">
+            <img src="<%= list.image.url %>" class="card-img-top" alt="listing_image" style="height:20rem">
+            <div class="card-body">
+              <h5 class="card-title">
+                <b><%= list.title %><br></b>
+                &#8377; <%= list.price.toLocaleString("en-IN") %>/night
+              </h5>
+              <p class="card-text"><%= list.location %>, <%= list.country %></p>
+            </div>
+          </div>
+        </a>
+      <% }) %>
+    </div>
+  <% } %>
+<% } %>

@@ -1,0 +1,66 @@
+<% layout("layouts/boilerplate") -%>
+
+<div class="row mt-4">
+  <div class="col-12">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <div>
+        <h3><%= isAdmin ? "Admin Dashboard" : "Owner Dashboard" %></h3>
+        <p class="text-muted mb-0">
+          <%= isAdmin ? "Manage all StaySphere listings." : "Manage your listings." %>
+        </p>
+      </div>
+      <a href="/listings/new" class="btn btn-dark">Add Listing</a>
+    </div>
+
+    <% if (listings.length === 0) { %>
+      <div class="alert alert-light border">No listings found.</div>
+    <% } else { %>
+      <div class="table-responsive">
+        <table class="table align-middle">
+          <thead>
+            <tr>
+              <th>Listing</th>
+              <% if (isAdmin) { %>
+                <th>Owner</th>
+              <% } %>
+              <th>Price</th>
+              <th>Status</th>
+              <th>Location</th>
+              <th class="text-end">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% listings.forEach(listing => { %>
+              <tr>
+                <td>
+                  <a href="/listings/<%= listing._id %>" class="text-decoration-none text-dark fw-semibold">
+                    <%= listing.title %>
+                  </a>
+                </td>
+                <% if (isAdmin) { %>
+                  <td><%= listing.owner ? listing.owner.username : "Unknown" %></td>
+                <% } %>
+                <td>&#8377; <%= listing.price.toLocaleString("en-IN") %></td>
+                <td>
+                  <% const status = listing.availability || "available"; %>
+                  <span class="badge <%= status === 'available' ? 'bg-success' : 'bg-secondary' %>">
+                    <%= status === "unavailable" ? "Unavailable" : status %>
+                  </span>
+                </td>
+                <td><%= listing.location %>, <%= listing.country %></td>
+                <td>
+                  <div class="d-flex justify-content-end gap-2">
+                    <a href="/listings/<%= listing._id %>/edit" class="btn btn-sm btn-outline-dark">Edit</a>
+                    <form method="post" action="/listings/<%= listing._id %>?_method=DELETE">
+                      <button class="btn btn-sm btn-dark">Delete</button>
+                    </form>
+                  </div>
+                </td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+    <% } %>
+  </div>
+</div>

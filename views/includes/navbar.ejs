@@ -28,6 +28,7 @@
     <div class="collapse navbar-collapse bg-white p-3 rounded shadow-sm" id="navbarNavAltMarkup">
       <div class="navbar-nav">
         <a class="nav-link" href="/listings">Explore</a>
+        <a class="nav-link" href="/planner">City Planner</a>
       </div>
       <!-- ---------------------------------------------------------- -->
       <div class="navbar-nav ms-auto">
@@ -41,6 +42,10 @@
 
       <div class="navbar-nav ms-auto">
          <a class="nav-link" href="/listings/new">Add new listings</a>
+        <%if(currUser){%>
+        <a class="nav-link" href="/dashboard"><b>Dashboard</b></a>
+        <a class="nav-link" href="/planner/saved"><b>Saved Plans</b></a>
+        <%}%>
         <%if(!currUser){%>
           <a class="nav-link" href="/signup"><b>Sign Up </b></a>
           <a class="nav-link" href="/login"><b>Login</b></a>

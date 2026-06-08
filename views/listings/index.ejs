@@ -35,6 +35,20 @@
     height: 3.5rem;
     margin-top: 1rem;
   }
+  .price-filter{
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.75rem;
+    margin-top: 1rem;
+  }
+  .price-filter .form-control,
+  .price-filter .form-select{
+    border-radius: 25px;
+    max-width: 11rem;
+    padding: 0.5rem 1rem;
+  }
 </style>
 <div id="filters">
   <div class="filter"data-category="trending">
@@ -89,6 +103,25 @@
 </div>
 </div>
 
+<form action="/listings" method="GET" class="price-filter">
+  <% if (activeCategory) { %>
+    <input type="hidden" name="category" value="<%= activeCategory %>">
+  <% } %>
+  <% if (filters.search) { %>
+    <input type="hidden" name="search" value="<%= filters.search %>">
+  <% } %>
+  <input class="form-control" type="number" name="minPrice" placeholder="Min price" value="<%= filters.minPrice %>">
+  <input class="form-control" type="number" name="maxPrice" placeholder="Max price" value="<%= filters.maxPrice %>">
+  <select class="form-select" name="availability">
+    <option value="">All status</option>
+    <option value="available" <%= filters.availability === "available" ? "selected" : "" %>>Available</option>
+    <option value="booked" <%= filters.availability === "booked" ? "selected" : "" %>>Booked</option>
+    <option value="unavailable" <%= filters.availability === "unavailable" ? "selected" : "" %>>Unavailable</option>
+  </select>
+  <button class="btn btn-search" type="submit">Filter</button>
+  <a class="btn btn-outline-dark rounded-pill" href="/listings">Clear</a>
+</form>
+
 <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 mt-3">
 <% for (let list of allListing) { %>
   <a href="/listings/<%=list._id%>" class="listing-link">
@@ -104,6 +137,10 @@
 
   <b><%= list.title %><br></b>
    &#8377; <%= list.price.toLocaleString("en-IN") %>/night
+   <% const status = list.availability || "available"; %>
+   <% if (status !== "available") { %>
+    <span class="badge bg-secondary ms-2"><%= status %></span>
+   <% } %>
   </h5>
   <i class="tax-info">+18%GST</i>
   <p class="card-text"><%=list.description%></p>

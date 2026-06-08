@@ -82,27 +82,29 @@ spec:
 
 
 #-------DevOps Pipeline-----------
-# Code
-#  ↓
+# Draw the entire architecture
+
+# Developer
+#     ↓
 # Git
-#  ↓
+#     ↓
 # GitHub
-#  ↓
+#     ↓
 # Docker
-#  ↓
+#     ↓
 # Docker Hub
-#  ↓
-# Kubernetes
-#  ↓
-# Deployment
-#  ↓
-# Service
-#  ↓
-# Ingress
-#  ↓
-# CI
-#  ↓
+#     ↓
+# GitHub Actions
+#     ↓
 # Self Hosted Runner
-#  ↓
-# CD
+#     ↓
+# Kubernetes
+#     ↓
+# Deployment
+#     ↓
+# Pod
+#     ↓
+# MongoDB Atlas
+#     ↓
+# User
 #----------------------------
