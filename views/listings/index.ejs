@@ -127,7 +127,7 @@
   <a href="/listings/<%=list._id%>" class="listing-link">
 
 <div class="card col " >
-  <img src="<%=list.image.url%>" class="card-img-top" alt="listing_image" style="height:20rem" >
+  <img src="<%= list.image && list.image.url ? list.image.url : 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800&auto=format&fit=crop' %>" class="card-img-top" alt="listing_image" style="height:20rem" >
 
    <div class="card-img-overlay overlay-effect">
     </div>

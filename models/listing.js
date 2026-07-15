@@ -9,8 +9,14 @@ const listingSchema =  new Schema({
     },
     description:String,
     image:{
-        filename: String,
-        url: String
+        filename: {
+            type: String,
+            default: "listing-placeholder"
+        },
+        url: {
+            type: String,
+            default: "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800&auto=format&fit=crop"
+        }
         // type:String,
         // required:true,
         // set:(v) => v === "" ? "https://unsplash.com/photos/a-tree-in-a-lake-x6EyvkhT9ZU":v

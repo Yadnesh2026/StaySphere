@@ -3,6 +3,28 @@ const { listingSchema } = require("../schema.js");
 const ExpressError = require("../utils/ExpressError.js");
 const axios = require("axios");
 
+const defaultListingImage = {
+  url: "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800&auto=format&fit=crop",
+  filename: "listing-placeholder"
+};
+
+function getListingImage(file) {
+  if (!file) {
+    return defaultListingImage;
+  }
+
+  if (file.path && file.path.startsWith("http")) {
+    return {
+      url: file.path,
+      filename: file.filename
+    };
+  }
+
+  return {
+    url: `/uploads/${file.filename}`,
+    filename: file.filename
+  };
+}
 
 
 //----------Index Route-------------------------
@@ -116,14 +138,6 @@ module.exports.CreatePost =async (req,res,next)=>{
     const newListing = new Listing(listingData);
 
 
-    ////Save the image
-    if (req.file) { 
-    newListing.image = {
-    url: req.file.path,
-    filename: req.file.filename
-    };
-    }
-    
   // ✅ real location
   // Default to [0,0] if geocoding fails
   const geometry = response.data && response.data.length > 0
@@ -132,13 +146,7 @@ module.exports.CreatePost =async (req,res,next)=>{
 
   newListing.geometry = geometry;
 
-  // image
-  if (req.file) {
-    newListing.image = {
-      url: req.file.path,
-      filename: req.file.filename
-    };
-  }
+  newListing.image = getListingImage(req.file);
 
   newListing.owner = req.user._id;
   await newListing.save();
@@ -161,7 +169,7 @@ module.exports.EditForm =async (req,res)=>{
     return res.redirect("/listings");
     }
 
-    let originaImage = listing.image.url;//Image showing in edit form
+    let originaImage = listing.image?.url || defaultListingImage.url;//Image showing in edit form
     originaImage =  originaImage.replace("/upload","/upload/,w_250");
     res.render("listings/edit",{listing,originaImage})
 };
@@ -173,9 +181,7 @@ module.exports.Update = async(req,res)=>{
         id,{ ...req.body.listing },{ new: true });
     
     if(req.file){///Used if to check if image is uploaded for not
-    let url = req.file.path;///To save the imagee
-    let filename = req.file.filename;
-    listing.image = {url,filename};
+    listing.image = getListingImage(req.file);
     await listing.save();
     }
 

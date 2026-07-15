@@ -6,7 +6,7 @@
       <h2 class="mb-3"><%= listing.title %></h2>
 
       <div class="card shadow-lg border-0 rounded-4 overflow-hidden">
-        <img src="<%= listing.image.url %>" class="card-img-top" style="height:350px; object-fit:cover;">
+        <img src="<%= listing.image && listing.image.url ? listing.image.url : 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800&auto=format&fit=crop' %>" class="card-img-top" style="height:350px; object-fit:cover;">
 
         <div class="card-body p-4">
 

@@ -19,6 +19,9 @@ const dbURL = process.env.ATLASDB_URL;
 
 
 
+
+
+
 const listingRoutes = require("./routes/listing.js");
 const reviewRoutes = require("./routes/review.js");
 const userRoutes = require("./routes/user.js");
@@ -144,6 +147,7 @@ app.use( (req, res, next) => {
 
 //Error Handling
 app.use((err,req,res,next)=>{
+    console.error(err);
     let {status=500,message="Somthing went wrong"} = err;
     res.render("error.ejs",{message})
 });
