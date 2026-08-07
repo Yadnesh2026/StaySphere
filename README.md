@@ -3,6 +3,8 @@
 StaySphere is a full-stack accommodation booking platform built using the MERN stack (MongoDB, Express.js, React.js, Node.js). The application allows users to browse property listings, view details, and manage bookings through a responsive and user-friendly interface
 
 ---
+
+
 ## 🚀 Features
 
 - 🏠 Browse and view accommodation listings
