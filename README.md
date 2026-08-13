@@ -12,7 +12,6 @@ StaySphere is a full-stack accommodation booking platform built using the MERN s
 - 🎨 Modern responsive UI
 - 🧱 MVC architecture implementation
 - 📱 Mobile-friendly design
-
 ---
 ## 🛠️ Tech Stack
 
